@@ -1,4 +1,4 @@
-package fi.metatavu.muisti.api.test.functional
+package fi.metatavu.muisti.api.test.builder
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper

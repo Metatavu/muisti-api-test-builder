@@ -1,4 +1,4 @@
-package fi.metatavu.muisti.api.test.functional.builder.impl
+package fi.metatavu.muisti.api.test.builder.builder.impl
 
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.muisti.api.client.apis.DeviceModelsApi
@@ -8,8 +8,8 @@ import fi.metatavu.muisti.api.client.models.DeviceModel
 import fi.metatavu.muisti.api.client.models.DeviceModelCapabilities
 import fi.metatavu.muisti.api.client.models.DeviceModelDimensions
 import fi.metatavu.muisti.api.client.models.DeviceModelDisplayMetrics
-import fi.metatavu.muisti.api.test.functional.TestBuilder
-import fi.metatavu.muisti.api.test.functional.impl.ApiTestBuilderResource
+import fi.metatavu.muisti.api.test.builder.TestBuilder
+import fi.metatavu.muisti.api.test.builder.impl.ApiTestBuilderResource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import java.util.*

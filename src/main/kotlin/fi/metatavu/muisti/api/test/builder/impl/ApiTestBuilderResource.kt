@@ -1,10 +1,10 @@
-package fi.metatavu.muisti.api.test.functional.impl
+package fi.metatavu.muisti.api.test.builder.impl
 
 import com.squareup.moshi.Moshi
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
 import fi.metatavu.muisti.api.client.models.Error
-import fi.metatavu.muisti.api.test.functional.TestBuilder
+import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert
 
 /**

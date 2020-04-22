@@ -1,10 +1,10 @@
-package fi.metatavu.muisti.api.test.functional.builder.impl
+package fi.metatavu.muisti.api.test.builder.builder.impl
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import fi.metatavu.jaxrs.test.functional.builder.CloseableResource
 import fi.metatavu.jaxrs.test.functional.builder.TestBuilderResource
-import fi.metatavu.muisti.api.test.functional.TestBuilder
+import fi.metatavu.muisti.api.test.builder.TestBuilder
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -33,7 +33,7 @@ class FileTestBuilderResource(private val testBuilder: TestBuilder) : TestBuilde
     fun upload(folder: String, resourceName: String, contentType: String): OutputFile {
         val classLoader = javaClass.classLoader
         classLoader.getResourceAsStream(resourceName).use { fileStream ->
-            val fileData: ByteArray = fileStream!!.readAllBytes()
+            val fileData: ByteArray = fileStream!!.readBytes()
             val fileBody: RequestBody = fileData.toRequestBody(contentType.toMediaType(), 0, fileData.size)
 
            val requestBody: MultipartBody = MultipartBody.Builder()
