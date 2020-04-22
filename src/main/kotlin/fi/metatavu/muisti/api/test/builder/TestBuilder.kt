@@ -1,12 +1,11 @@
-package fi.metatavu.muisti.api.test.functional
+package fi.metatavu.muisti.api.test.builder
 
 import fi.metatavu.jaxrs.test.functional.builder.AbstractTestBuilder
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthentication
 import fi.metatavu.jaxrs.test.functional.builder.auth.KeycloakAccessTokenProvider
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
-import fi.metatavu.muisti.api.test.builder.Settings
-import fi.metatavu.muisti.api.test.functional.auth.TestBuilderAuthentication
+import fi.metatavu.muisti.api.test.builder.auth.TestBuilderAuthentication
 import org.slf4j.LoggerFactory
 import java.io.IOException
 

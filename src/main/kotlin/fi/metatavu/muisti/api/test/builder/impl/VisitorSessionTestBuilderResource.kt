@@ -1,4 +1,4 @@
-package fi.metatavu.muisti.api.test.functional.impl
+package fi.metatavu.muisti.api.test.builder.impl
 
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.muisti.api.client.apis.VisitorSessionsApi
@@ -8,7 +8,7 @@ import fi.metatavu.muisti.api.client.models.VisitorSession
 import fi.metatavu.muisti.api.client.models.VisitorSessionState
 import fi.metatavu.muisti.api.client.models.VisitorSessionUser
 import fi.metatavu.muisti.api.client.models.VisitorSessionVariable
-import fi.metatavu.muisti.api.test.functional.TestBuilder
+import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.slf4j.LoggerFactory
