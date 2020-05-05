@@ -47,7 +47,7 @@ class ExhibitionFloorTestBuilderResource(testBuilder: TestBuilder, val accessTok
      * @return created exhibition Floor
      */
     fun create(exhibitionId: UUID, payload: ExhibitionFloor): ExhibitionFloor {
-        val result: ExhibitionFloor = this.getApi().createExhibitionFloor(exhibitionId, payload)
+        val result: ExhibitionFloor = this.api.createExhibitionFloor(exhibitionId, payload)
         addClosable(result)
         return result
     }
