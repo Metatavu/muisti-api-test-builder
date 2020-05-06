@@ -33,6 +33,8 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
             deviceId = deviceId,
             contentVersionId = contentVersionId,
             name = "default page",
+            enterTransitions = arrayOf(),
+            exitTransitions = arrayOf(),
             resources = arrayOf(),
             eventTriggers = arrayOf()
         ))
