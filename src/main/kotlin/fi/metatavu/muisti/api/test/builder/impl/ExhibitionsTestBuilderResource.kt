@@ -176,7 +176,11 @@ class ExhibitionsTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
     }
 
     override fun getApi(): ExhibitionsApi {
+        System.out.println("---------------  DEBUG -------------------")
+        System.out.println("Resolving access token...")
         ApiClient.accessToken = accessTokenProvider?.accessToken
+        System.out.println("Resolving access token resolved")
+        System.out.println("---------------  DEBUG -------------------")
         return ExhibitionsApi(testBuilder.settings.apiBasePath)
     }
 
