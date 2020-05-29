@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 /**
- * Test builder resource for handling exhibition content versions
+ * Test builder resource for handling content versions
  */
 class ExhibitionContentVersionTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<ExhibitionContentVersion, ApiClient?>(testBuilder, apiClient) {
 
