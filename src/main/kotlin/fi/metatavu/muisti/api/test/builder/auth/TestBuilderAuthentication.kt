@@ -33,7 +33,8 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   private var pageLayouts: PageLayoutTestBuilderResource? = null
   private var exhibitionPages: ExhibitionPageTestBuilderResource? = null
   private var files: FileTestBuilderResource? = null
-  private var exhibitionContentVersions: ExhibitionContentVersionTestBuilderResource? = null
+  private var contentVersions: ContentVersionTestBuilderResource? = null
+  private var groupContentVersions: GroupContentVersionTestBuilderResource? = null
 
   /**
    * Returns test builder resource for exhibitions
@@ -94,7 +95,7 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
 
     return exhibitionFloors!!
   }
-  
+
   /**
    * Returns test builder resource for exhibitionDevices
    *
@@ -171,18 +172,33 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   }
 
   /**
-   * Returns test builder resource for exhibitionGroups
+   * Returns test builder resource for content versions
    *
-   * @return test builder resource for exhibitionGroups
+   * @return test builder resource for content versions
    * @throws IOException thrown when authentication fails
    */
   @kotlin.jvm.Throws(IOException::class)
-  fun exhibitionContentVersions(): ExhibitionContentVersionTestBuilderResource {
-    if (exhibitionContentVersions == null) {
-      exhibitionContentVersions = ExhibitionContentVersionTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+  fun contentVersions(): ContentVersionTestBuilderResource {
+    if (contentVersions == null) {
+      contentVersions = ContentVersionTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
     }
 
-    return exhibitionContentVersions!!
+    return contentVersions!!
+  }
+
+  /**
+   * Returns test builder resource for exhibitionGroups
+   *
+   * @return test builder resource for content versions
+   * @throws IOException thrown when authentication fails
+   */
+  @kotlin.jvm.Throws(IOException::class)
+  fun groupContentVersions(): GroupContentVersionTestBuilderResource {
+    if (groupContentVersions == null) {
+      groupContentVersions = GroupContentVersionTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+    }
+
+    return groupContentVersions!!
   }
 
   /**
