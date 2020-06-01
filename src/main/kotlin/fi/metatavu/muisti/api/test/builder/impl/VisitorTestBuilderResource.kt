@@ -5,6 +5,7 @@ import fi.metatavu.muisti.api.client.apis.VisitorsApi
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
 import fi.metatavu.muisti.api.client.models.Visitor
+import fi.metatavu.muisti.api.client.models.VisitorTag
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
@@ -47,6 +48,17 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      */
     fun findVisitor(exhibitionId: UUID, visitorId: UUID): Visitor? {
         return api.findVisitor(exhibitionId, visitorId)
+    }
+
+    /**
+     * Finds visitor tag
+     *
+     * @param exhibitionId exhibition id
+     * @param tagId tag id
+     * @return visitor tag
+     */
+    fun findVisitorTag(exhibitionId: UUID, tagId: String): VisitorTag? {
+        return api.findVisitorTag(exhibitionId = exhibitionId, tagId = tagId)
     }
 
     /**
@@ -132,6 +144,22 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
         try {
             api.findVisitor(exhibitionId, visitorId)
             fail(String.format("Expected find to fail with message %d", expectedStatus))
+        } catch (e: ClientException) {
+            assertClientExceptionStatus(expectedStatus, e)
+        }
+    }
+
+    /**
+     * Asserts find status fails with given status code
+     *
+     * @param expectedStatus expected status
+     * @param exhibitionId exhibition id
+     * @param tagId tag id
+     */
+    fun assertFindVisitorFail(expectedStatus: Int, exhibitionId: UUID, tagId: String) {
+        try {
+            api.findVisitorTag(exhibitionId = exhibitionId, tagId = tagId)
+            fail(String.format("Expected tag find to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
         }
