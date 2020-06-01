@@ -28,7 +28,7 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      * @return created exhibition DeviceGroup
      */
     fun create(exhibitionId: UUID, roomId: UUID): ExhibitionDeviceGroup {
-        return create(exhibitionId, ExhibitionDeviceGroup( name = "default deviceGroup", roomId = roomId))
+        return create(exhibitionId, ExhibitionDeviceGroup( name = "default deviceGroup", roomId = roomId, allowVisitorSessionCreation = false))
     }
 
     /**
