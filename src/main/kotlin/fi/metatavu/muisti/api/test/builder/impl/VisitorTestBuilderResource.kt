@@ -1,20 +1,20 @@
 package fi.metatavu.muisti.api.test.builder.impl
 
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
-import fi.metatavu.muisti.api.client.apis.VisitorSessionsApi
+import fi.metatavu.muisti.api.client.apis.VisitorsApi
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
-import fi.metatavu.muisti.api.client.models.VisitorSession
-import fi.metatavu.muisti.api.client.models.VisitorSessionState
+import fi.metatavu.muisti.api.client.models.Visitor
+import fi.metatavu.muisti.api.client.models.VisitorTag
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import java.util.*
 
 /**
- * Test builder resource for handling visitorSessions
+ * Test builder resource for handling visitors
  */
-class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<VisitorSession, ApiClient?>(testBuilder, apiClient) {
+class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<Visitor, ApiClient?>(testBuilder, apiClient) {
 
     /**
      * Creates new visitor session with default values
@@ -22,8 +22,8 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId
      * @return created visitor session
      */
-    fun create(exhibitionId: UUID): VisitorSession {
-        return create(exhibitionId, VisitorSession(state = VisitorSessionState.aCTIVE, visitorIds = arrayOf(), variables = arrayOf()))
+    fun create(exhibitionId: UUID): Visitor {
+        return create(exhibitionId, Visitor(email = "fake@exmaple.com", tagId = "faketag"))
     }
 
     /**
@@ -33,8 +33,8 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param payload payload
      * @return created visitor session
      */
-    fun create(exhibitionId: UUID, payload: VisitorSession): VisitorSession {
-        val result: VisitorSession = this.api.createVisitorSession(exhibitionId, payload)
+    fun create(exhibitionId: UUID, payload: Visitor): Visitor {
+        val result: Visitor = this.api.createVisitor(exhibitionId, payload)
         addClosable(result)
         return result
     }
@@ -43,11 +43,22 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * Finds visitor session
      *
      * @param exhibitionId exhibition id
-     * @param visitorSessionId visitor session id
+     * @param visitorId visitor session id
      * @return visitor session
      */
-    fun findVisitorSession(exhibitionId: UUID, visitorSessionId: UUID): VisitorSession? {
-        return api.findVisitorSession(exhibitionId, visitorSessionId)
+    fun findVisitor(exhibitionId: UUID, visitorId: UUID): Visitor? {
+        return api.findVisitor(exhibitionId, visitorId)
+    }
+
+    /**
+     * Finds visitor tag
+     *
+     * @param exhibitionId exhibition id
+     * @param tagId tag id
+     * @return visitor tag
+     */
+    fun findVisitorTag(exhibitionId: UUID, tagId: String): VisitorTag? {
+        return api.findVisitorTag(exhibitionId = exhibitionId, tagId = tagId)
     }
 
     /**
@@ -57,8 +68,8 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param tagId tag id
      * @return visitor sessions
      */
-    fun listVisitorSessions(exhibitionId: UUID, tagId: String?): Array<VisitorSession> {
-        return api.listVisitorSessions(exhibitionId = exhibitionId, tagId = tagId)
+    fun listVisitors(exhibitionId: UUID, tagId: String?): Array<Visitor> {
+        return api.listVisitors(exhibitionId = exhibitionId, tagId = tagId)
     }
 
     /**
@@ -68,47 +79,47 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param body update body
      * @return updated visitor session
      */
-    fun updateVisitorSession(exhibitionId: UUID, body: VisitorSession): VisitorSession? {
-        return api.updateVisitorSession(exhibitionId, body.id!!, body)
+    fun updateVisitor(exhibitionId: UUID, body: Visitor): Visitor? {
+        return api.updateVisitor(exhibitionId, body.id!!, body)
     }
 
     /**
-     * Deletes a visitorSession from the API
+     * Deletes a visitor from the API
      *
      * @param exhibitionId exhibition id
-     * @param visitorSession visitorSession to be deleted
+     * @param visitor visitor to be deleted
      */
-    fun delete(exhibitionId: UUID, visitorSession: VisitorSession) {
-        delete(exhibitionId, visitorSession.id!!)
+    fun delete(exhibitionId: UUID, visitor: Visitor) {
+        delete(exhibitionId, visitor.id!!)
     }
 
     /**
-     * Deletes a visitorSession from the API
+     * Deletes a visitor from the API
      *
      * @param exhibitionId exhibition id
-     * @param visitorSessionId visitorSession id to be deleted
+     * @param visitorId visitor id to be deleted
      */
-    fun delete(exhibitionId: UUID, visitorSessionId: UUID) {
-        api.deleteVisitorSession(exhibitionId, visitorSessionId)
+    fun delete(exhibitionId: UUID, visitorId: UUID) {
+        api.deleteVisitor(exhibitionId, visitorId)
         removeCloseable { closable: Any ->
-            if (closable !is VisitorSession) {
+            if (closable !is Visitor) {
                 return@removeCloseable false
             }
 
-            val closeableVisitorSession: VisitorSession = closable
-            closeableVisitorSession.id!! == visitorSessionId
+            val closeableVisitor: Visitor = closable
+            closeableVisitor.id!! == visitorId
         }
     }
 
     /**
-     * Asserts visitorSession count within the system
+     * Asserts visitor count within the system
      *
      * @param expected expected count
      * @param exhibitionId exhibition id
      * @param tagId filter by tag id
      */
     fun assertCount(expected: Int, exhibitionId: UUID, tagId: String?) {
-        assertEquals(expected, api.listVisitorSessions(exhibitionId = exhibitionId, tagId = tagId).size)
+        assertEquals(expected, api.listVisitors(exhibitionId = exhibitionId, tagId = tagId).size)
     }
 
     /**
@@ -116,10 +127,10 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      *
      * @param expectedStatus expected status code
      * @param exhibitionId exhibition id
-     * @param visitorSessionId visitorSession id
+     * @param visitorId visitor id
      */
-    fun assertFindFailStatus(expectedStatus: Int, exhibitionId: UUID, visitorSessionId: UUID) {
-        assertFindFailStatus(expectedStatus, exhibitionId, visitorSessionId)
+    fun assertFindFailStatus(expectedStatus: Int, exhibitionId: UUID, visitorId: UUID) {
+        assertFindFailStatus(expectedStatus, exhibitionId, visitorId)
     }
 
     /**
@@ -127,12 +138,28 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      *
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
-     * @param visitorSessionId visitorSession id
+     * @param visitorId visitor id
      */
-    fun assertFindFail(expectedStatus: Int, exhibitionId: UUID, visitorSessionId: UUID) {
+    fun assertFindFail(expectedStatus: Int, exhibitionId: UUID, visitorId: UUID) {
         try {
-            api.findVisitorSession(exhibitionId, visitorSessionId)
+            api.findVisitor(exhibitionId, visitorId)
             fail(String.format("Expected find to fail with message %d", expectedStatus))
+        } catch (e: ClientException) {
+            assertClientExceptionStatus(expectedStatus, e)
+        }
+    }
+
+    /**
+     * Asserts find status fails with given status code
+     *
+     * @param expectedStatus expected status
+     * @param exhibitionId exhibition id
+     * @param tagId tag id
+     */
+    fun assertFindVisitorFail(expectedStatus: Int, exhibitionId: UUID, tagId: String) {
+        try {
+            api.findVisitorTag(exhibitionId = exhibitionId, tagId = tagId)
+            fail(String.format("Expected tag find to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
         }
@@ -147,7 +174,7 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      */
     fun assertListFail(expectedStatus: Int, exhibitionId: UUID, tagId: String?) {
         try {
-            api.listVisitorSessions(exhibitionId = exhibitionId, tagId = tagId)
+            api.listVisitors(exhibitionId = exhibitionId, tagId = tagId)
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
@@ -161,7 +188,7 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId exhibition id
      * @param payload payload
      */
-    fun assertCreateFail(expectedStatus: Int, exhibitionId: UUID, payload: VisitorSession) {
+    fun assertCreateFail(expectedStatus: Int, exhibitionId: UUID, payload: Visitor) {
         try {
             create(exhibitionId, payload)
             fail(String.format("Expected create to fail with message %d", expectedStatus))
@@ -177,9 +204,9 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId exhibition id
      * @param body body
      */
-    fun assertUpdateFail(expectedStatus: Int, exhibitionId: UUID, body: VisitorSession) {
+    fun assertUpdateFail(expectedStatus: Int, exhibitionId: UUID, body: Visitor) {
         try {
-            updateVisitorSession(exhibitionId, body)
+            updateVisitor(exhibitionId, body)
             fail(String.format("Expected update to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
@@ -202,13 +229,13 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
         }
     }
 
-    override fun clean(visitorSession: VisitorSession) {
-        this.api.deleteVisitorSession(visitorSession.exhibitionId!!, visitorSession.id!!)
+    override fun clean(visitor: Visitor) {
+        this.api.deleteVisitor(visitor.exhibitionId!!, visitor.id!!)
     }
 
-    override fun getApi(): VisitorSessionsApi {
+    override fun getApi(): VisitorsApi {
         ApiClient.accessToken = accessTokenProvider?.accessToken
-        return VisitorSessionsApi(testBuilder.settings.apiBasePath)
+        return VisitorsApi(testBuilder.settings.apiBasePath)
     }
 
 }
