@@ -84,7 +84,7 @@ class RfidAntennaTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
     }
 
     /**
-     * Deletes a rfidAntenna from the API
+     * Deletes an rfidAntenna from the API
      *
      * @param exhibitionId exhibition id
      * @param rfidAntenna rfidAntenna to be deleted
