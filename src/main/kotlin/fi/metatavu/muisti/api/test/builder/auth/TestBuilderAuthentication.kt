@@ -31,6 +31,7 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   private var exhibitionDeviceGroups: ExhibitionDeviceGroupTestBuilderResource? = null
   private var deviceModels: DeviceModelTestBuilderResource? = null
   private var exhibitionDevices: ExhibitionDeviceTestBuilderResource? = null
+  private var rfidAntennas: RfidAntennaTestBuilderResource? = null
   private var pageLayouts: PageLayoutTestBuilderResource? = null
   private var exhibitionPages: ExhibitionPageTestBuilderResource? = null
   private var files: FileTestBuilderResource? = null
@@ -125,6 +126,21 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
     }
 
     return exhibitionDevices!!
+  }
+
+  /**
+   * Returns test builder resource for RFID antennas
+   *
+   * @return test builder resource for RFID antennas
+   * @throws IOException thrown when authentication fails
+   */
+  @kotlin.jvm.Throws(IOException::class)
+  fun rfidAntennas(): RfidAntennaTestBuilderResource {
+    if (rfidAntennas == null) {
+      rfidAntennas = RfidAntennaTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+    }
+
+    return rfidAntennas!!
   }
 
   /**
