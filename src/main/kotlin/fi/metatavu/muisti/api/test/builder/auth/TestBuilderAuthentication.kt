@@ -5,7 +5,6 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthe
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import fi.metatavu.muisti.api.test.builder.builder.impl.DeviceModelTestBuilderResource
-import fi.metatavu.muisti.api.test.builder.builder.impl.FileTestBuilderResource
 import fi.metatavu.muisti.api.test.builder.builder.impl.PageLayoutTestBuilderResource
 import fi.metatavu.muisti.api.test.builder.impl.*
 import java.io.IOException
@@ -34,7 +33,7 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   private var rfidAntennas: RfidAntennaTestBuilderResource? = null
   private var pageLayouts: PageLayoutTestBuilderResource? = null
   private var exhibitionPages: ExhibitionPageTestBuilderResource? = null
-  private var files: FileTestBuilderResource? = null
+  private var storedFiles: StoredFilesTestBuilderResource? = null
   private var contentVersions: ContentVersionTestBuilderResource? = null
   private var groupContentVersions: GroupContentVersionTestBuilderResource? = null
 
@@ -240,12 +239,12 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
    * @throws IOException thrown when authentication fails
    */
   @kotlin.jvm.Throws(IOException::class)
-  fun files(): FileTestBuilderResource {
-    if (files == null) {
-      files = FileTestBuilderResource(testBuilder)
+  fun files(): StoredFilesTestBuilderResource {
+    if (storedFiles == null) {
+      storedFiles = StoredFilesTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
     }
 
-    return files!!
+    return storedFiles!!
   }
 
   /**

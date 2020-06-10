@@ -236,7 +236,7 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
     }
 
     override fun clean(exhibitionPage: ExhibitionPage) {
-        this.getApi().deleteExhibitionPage(exhibitionPage.exhibitionId!!, exhibitionPage.id!!)
+        this.api.deleteExhibitionPage(exhibitionPage.exhibitionId!!, exhibitionPage.id!!)
     }
 
     override fun getApi(): ExhibitionPagesApi {
