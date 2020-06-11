@@ -4,11 +4,11 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.muisti.api.client.apis.GroupContentVersionsApi
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
-import fi.metatavu.muisti.api.client.models.*
+import fi.metatavu.muisti.api.client.models.GroupContentVersion
+import fi.metatavu.muisti.api.client.models.GroupContentVersionStatus
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
-import org.slf4j.LoggerFactory
 import java.util.*
 
 /**
@@ -16,14 +16,30 @@ import java.util.*
  */
 class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<GroupContentVersion, ApiClient?>(testBuilder, apiClient) {
 
-    private val logger = LoggerFactory.getLogger(javaClass)
+    /**
+     * Creates new group content version using default values
+     *
+     * @param exhibitionId exhibition id
+     * @param contentVersionId content version id
+     * @param deviceGroupId device group id
+     * @return created group content version
+     */
+    fun create(exhibitionId: UUID, contentVersionId: UUID, deviceGroupId: UUID): GroupContentVersion {
+        return create(exhibitionId = exhibitionId, payload = GroupContentVersion(
+            name = "default",
+            contentVersionId = contentVersionId,
+            status = GroupContentVersionStatus.ready,
+            deviceGroupId = deviceGroupId
+        ))
+    }
+
 
     /**
-     * Creates new GroupContentVersion
+     * Creates new group content version
      *
      * @param exhibitionId exhibition id
      * @param payload payload
-     * @return created GroupContentVersion
+     * @return created group content version
      */
     fun create(exhibitionId: UUID, payload: GroupContentVersion): GroupContentVersion {
         val result: GroupContentVersion = this.api.createGroupContentVersion(exhibitionId, payload)
@@ -43,13 +59,14 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Lists GroupContentVersions
+     * Lists group content versions
      *
-     * @param exhibitionId exhibition id
-     * @return GroupContentVersions
+     * @param exhibitionId filter by exhibition id
+     * @param contentVersionId filter by content version id. Ignored if null is passed
+     * @return List of group content versions
      */
-    fun listGroupContentVersions(exhibitionId: UUID): Array<GroupContentVersion> {
-        return api.listGroupContentVersions(exhibitionId)
+    fun listGroupContentVersions(exhibitionId: UUID, contentVersionId: UUID?): Array<GroupContentVersion> {
+        return api.listGroupContentVersions(exhibitionId = exhibitionId, contentVersionId = contentVersionId)
     }
 
     /**
@@ -92,13 +109,14 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Asserts groupContentVersion count within the system
+     * Asserts group content version count within the system
      *
      * @param expected expected count
      * @param exhibitionId exhibition id
+     * @param contentVersionId content version id
      */
-    fun assertCount(expected: Int, exhibitionId: UUID) {
-        assertEquals(expected, api.listGroupContentVersions(exhibitionId).size)
+    fun assertCount(expected: Int, exhibitionId: UUID, contentVersionId: UUID?) {
+        assertEquals(expected, api.listGroupContentVersions(exhibitionId = exhibitionId, contentVersionId = contentVersionId).size)
     }
 
     /**
@@ -133,10 +151,11 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      *
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
+     * @param contentVersionId content version id
      */
-    fun assertListFail(expectedStatus: Int, exhibitionId: UUID) {
+    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, contentVersionId: UUID?) {
         try {
-            api.listGroupContentVersions(exhibitionId)
+            api.listGroupContentVersions(exhibitionId = exhibitionId, contentVersionId = contentVersionId)
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
@@ -180,11 +199,11 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      *
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
-     * @param id id
+     * @param groupContentVersionId group content version id
      */
-    fun assertDeleteFail(expectedStatus: Int, exhibitionId: UUID, id: UUID) {
+    fun assertDeleteFail(expectedStatus: Int, exhibitionId: UUID, groupContentVersionId: UUID) {
         try {
-            delete(exhibitionId, id)
+            delete(exhibitionId, groupContentVersionId)
             fail(String.format("Expected delete to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
