@@ -25,6 +25,8 @@ class StoredFilesTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
      *
      * @param folder folder
      * @param resourceName resource name
+     * @param contentType content type
+     * @param filename filename
      * @return upload response
      * @throws IOException thrown on upload failure
      */
