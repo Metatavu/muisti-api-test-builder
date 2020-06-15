@@ -131,7 +131,7 @@ class RfidAntennaTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
      * @param rfidAntennaId rfidAntenna id
      */
     fun assertFindFailStatus(expectedStatus: Int, exhibitionId: UUID, rfidAntennaId: UUID) {
-        assertFindFailStatus(expectedStatus, exhibitionId, rfidAntennaId)
+        assertFindFail(expectedStatus, exhibitionId, rfidAntennaId)
     }
 
     /**
