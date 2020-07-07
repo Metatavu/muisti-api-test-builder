@@ -1,4 +1,4 @@
-package fi.metatavu.muisti.api.test.builder.builder.impl
+package fi.metatavu.muisti.api.test.builder.impl
 
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.muisti.api.client.apis.PageLayoutsApi
@@ -6,18 +6,14 @@ import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
 import fi.metatavu.muisti.api.client.models.*
 import fi.metatavu.muisti.api.test.builder.TestBuilder
-import fi.metatavu.muisti.api.test.builder.impl.ApiTestBuilderResource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
-import org.slf4j.LoggerFactory
 import java.util.*
 
 /**
  * Test builder resource for handling pageLayouts
  */
 class PageLayoutTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<PageLayout, ApiClient?>(testBuilder, apiClient) {
-
-    private val logger = LoggerFactory.getLogger(javaClass)
 
     /**
      * Creates new exhibition page layout with default values
@@ -28,8 +24,8 @@ class PageLayoutTestBuilderResource(testBuilder: TestBuilder, val accessTokenPro
     fun create(deviceModel: DeviceModel): PageLayout {
         val createdModelId = deviceModel.id!!
         val createdProperties = arrayOf(PageLayoutViewProperty("name", "true", PageLayoutViewPropertyType.boolean))
-        val createdChildren = arrayOf(PageLayoutView("childid", "child", arrayOf(), arrayOf()))
-        val createdData = PageLayoutView("rootid", "created widget", createdProperties, createdChildren)
+        val createdChildren = arrayOf(PageLayoutView("childid", PageLayoutWidgetType.button, arrayOf(), arrayOf()))
+        val createdData = PageLayoutView("rootid", PageLayoutWidgetType.frameLayout, createdProperties, createdChildren)
 
         return create(PageLayout(
             name = "created name",
@@ -47,7 +43,7 @@ class PageLayoutTestBuilderResource(testBuilder: TestBuilder, val accessTokenPro
      * @return created exhibition page layout
      */
     fun create(payload: PageLayout): PageLayout {
-        val result: PageLayout = this.getApi().createPageLayout(payload)
+        val result: PageLayout = this.api.createPageLayout(payload)
         addClosable(result)
         return result
     }
@@ -113,7 +109,7 @@ class PageLayoutTestBuilderResource(testBuilder: TestBuilder, val accessTokenPro
             }
 
             val closeablePageLayout: PageLayout = closable
-            closeablePageLayout.id!!.equals(pageLayoutId)
+            closeablePageLayout.id!! == pageLayoutId
         }
     }
 
@@ -211,7 +207,7 @@ class PageLayoutTestBuilderResource(testBuilder: TestBuilder, val accessTokenPro
     }
 
     override fun clean(pageLayout: PageLayout) {
-        this.getApi().deletePageLayout(pageLayout.id!!)
+        this.api.deletePageLayout(pageLayout.id!!)
     }
 
     override fun getApi(): PageLayoutsApi {
