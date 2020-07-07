@@ -5,7 +5,6 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthe
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import fi.metatavu.muisti.api.test.builder.builder.impl.DeviceModelTestBuilderResource
-import fi.metatavu.muisti.api.test.builder.builder.impl.PageLayoutTestBuilderResource
 import fi.metatavu.muisti.api.test.builder.impl.*
 import java.io.IOException
 
