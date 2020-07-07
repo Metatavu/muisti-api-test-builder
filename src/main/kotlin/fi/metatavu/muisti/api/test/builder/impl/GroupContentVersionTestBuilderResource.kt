@@ -49,7 +49,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      * @return GroupContentVersions
      */
     fun listGroupContentVersions(exhibitionId: UUID, contentVersionId: UUID?, deviceGroupId: UUID?): Array<GroupContentVersion> {
-        return api.listGroupContentVersions(exhibitionId, contentVersionId, deviceGroupId)
+        return api.listGroupContentVersions(exhibitionId = exhibitionId, contentVersionId = contentVersionId, deviceGroupId = deviceGroupId)
     }
 
     /**
@@ -98,7 +98,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      * @param exhibitionId exhibition id
      */
     fun assertCount(expected: Int, exhibitionId: UUID, contentVersionId: UUID?, deviceGroupId: UUID?) {
-        assertEquals(expected, api.listGroupContentVersions(exhibitionId, exhibitionId, deviceGroupId).size)
+        assertEquals(expected, api.listGroupContentVersions(exhibitionId = exhibitionId, contentVersionId = contentVersionId, deviceGroupId = deviceGroupId).size)
     }
 
     /**
@@ -134,9 +134,9 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
      */
-    fun assertListFail(expectedStatus: Int, exhibitionId: UUID) {
+    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, contentVersionId: UUID?, deviceGroupId: UUID?) {
         try {
-            api.listGroupContentVersions(exhibitionId)
+            api.listGroupContentVersions(exhibitionId = exhibitionId, contentVersionId = contentVersionId, deviceGroupId = deviceGroupId)
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)

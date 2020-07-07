@@ -5,8 +5,6 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthe
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import fi.metatavu.muisti.api.test.builder.builder.impl.DeviceModelTestBuilderResource
-import fi.metatavu.muisti.api.test.builder.builder.impl.FileTestBuilderResource
-import fi.metatavu.muisti.api.test.builder.builder.impl.PageLayoutTestBuilderResource
 import fi.metatavu.muisti.api.test.builder.impl.*
 import java.io.IOException
 
@@ -25,14 +23,16 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   private var accessTokenProvider: AccessTokenProvider? = accessTokenProvider
   private var exhibitions: ExhibitionsTestBuilderResource? = null
   private var visitorSessions: VisitorSessionTestBuilderResource? = null
+  private var visitors: VisitorTestBuilderResource? = null
   private var exhibitionRooms: ExhibitionRoomTestBuilderResource? = null
   private var exhibitionFloors: ExhibitionFloorTestBuilderResource? = null
   private var exhibitionDeviceGroups: ExhibitionDeviceGroupTestBuilderResource? = null
   private var deviceModels: DeviceModelTestBuilderResource? = null
   private var exhibitionDevices: ExhibitionDeviceTestBuilderResource? = null
+  private var rfidAntennas: RfidAntennaTestBuilderResource? = null
   private var pageLayouts: PageLayoutTestBuilderResource? = null
   private var exhibitionPages: ExhibitionPageTestBuilderResource? = null
-  private var files: FileTestBuilderResource? = null
+  private var storedFiles: StoredFilesTestBuilderResource? = null
   private var contentVersions: ContentVersionTestBuilderResource? = null
   private var groupContentVersions: GroupContentVersionTestBuilderResource? = null
 
@@ -64,6 +64,21 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
     }
 
     return visitorSessions!!
+  }
+
+  /**
+   * Returns test builder resource for visitors
+   *
+   * @return test builder resource for visitors
+   * @throws IOException thrown when authentication fails
+   */
+  @kotlin.jvm.Throws(IOException::class)
+  fun visitors(): VisitorTestBuilderResource {
+    if (visitors == null) {
+      visitors = VisitorTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+    }
+
+    return visitors!!
   }
 
   /**
@@ -109,6 +124,21 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
     }
 
     return exhibitionDevices!!
+  }
+
+  /**
+   * Returns test builder resource for RFID antennas
+   *
+   * @return test builder resource for RFID antennas
+   * @throws IOException thrown when authentication fails
+   */
+  @kotlin.jvm.Throws(IOException::class)
+  fun rfidAntennas(): RfidAntennaTestBuilderResource {
+    if (rfidAntennas == null) {
+      rfidAntennas = RfidAntennaTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+    }
+
+    return rfidAntennas!!
   }
 
   /**
@@ -208,12 +238,12 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
    * @throws IOException thrown when authentication fails
    */
   @kotlin.jvm.Throws(IOException::class)
-  fun files(): FileTestBuilderResource {
-    if (files == null) {
-      files = FileTestBuilderResource(testBuilder)
+  fun files(): StoredFilesTestBuilderResource {
+    if (storedFiles == null) {
+      storedFiles = StoredFilesTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
     }
 
-    return files!!
+    return storedFiles!!
   }
 
   /**

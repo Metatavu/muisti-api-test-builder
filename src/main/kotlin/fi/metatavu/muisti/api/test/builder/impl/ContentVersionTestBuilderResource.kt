@@ -26,7 +26,9 @@ class ContentVersionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @return created content version
      */
     fun create(exhibitionId: UUID): ContentVersion {
-        return create(exhibitionId, ContentVersion(name = "default contentVersion", language = "FI"))
+        val floorId = testBuilder.admin().exhibitionFloors().create(exhibitionId).id!!
+        val roomId = testBuilder.admin().exhibitionRooms().create(exhibitionId, floorId).id!!
+        return create(exhibitionId, ContentVersion(name = "default contentVersion", language = "FI", rooms = arrayOf<UUID>(roomId)))
     }
 
     /**
@@ -69,8 +71,8 @@ class ContentVersionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId exhibition id
      * @return ContentVersions
      */
-    fun listContentVersions(exhibitionId: UUID): Array<ContentVersion> {
-        return api.listContentVersions(exhibitionId)
+    fun listContentVersions(exhibitionId: UUID, roomId: UUID?): Array<ContentVersion> {
+        return api.listContentVersions(exhibitionId, roomId)
     }
 
     /**
@@ -118,8 +120,8 @@ class ContentVersionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param expected expected count
      * @param exhibitionId exhibition id
      */
-    fun assertCount(expected: Int, exhibitionId: UUID) {
-        assertEquals(expected, api.listContentVersions(exhibitionId).size)
+    fun assertCount(expected: Int, exhibitionId: UUID, roomId: UUID?) {
+        assertEquals(expected, api.listContentVersions(exhibitionId, roomId).size)
     }
 
     /**
@@ -155,9 +157,9 @@ class ContentVersionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
      */
-    fun assertListFail(expectedStatus: Int, exhibitionId: UUID) {
+    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, roomId: UUID?) {
         try {
-            api.listContentVersions(exhibitionId)
+            api.listContentVersions(exhibitionId, roomId)
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
