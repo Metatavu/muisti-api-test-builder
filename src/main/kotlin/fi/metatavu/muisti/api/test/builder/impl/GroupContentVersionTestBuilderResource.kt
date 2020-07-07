@@ -180,11 +180,11 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      *
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
-     * @param id id
+     * @param groupContentVersionId group content version id
      */
-    fun assertDeleteFail(expectedStatus: Int, exhibitionId: UUID, id: UUID) {
+    fun assertDeleteFail(expectedStatus: Int, exhibitionId: UUID, groupContentVersionId: UUID) {
         try {
-            delete(exhibitionId, id)
+            delete(exhibitionId, groupContentVersionId)
             fail(String.format("Expected delete to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
