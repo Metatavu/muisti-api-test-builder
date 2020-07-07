@@ -48,8 +48,8 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      * @param exhibitionId exhibition id
      * @return GroupContentVersions
      */
-    fun listGroupContentVersions(exhibitionId: UUID): Array<GroupContentVersion> {
-        return api.listGroupContentVersions(exhibitionId)
+    fun listGroupContentVersions(exhibitionId: UUID, contentVersionId: UUID?, deviceGroupId: UUID?): Array<GroupContentVersion> {
+        return api.listGroupContentVersions(exhibitionId, contentVersionId, deviceGroupId)
     }
 
     /**
@@ -97,8 +97,8 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
      * @param expected expected count
      * @param exhibitionId exhibition id
      */
-    fun assertCount(expected: Int, exhibitionId: UUID) {
-        assertEquals(expected, api.listGroupContentVersions(exhibitionId).size)
+    fun assertCount(expected: Int, exhibitionId: UUID, contentVersionId: UUID?, deviceGroupId: UUID?) {
+        assertEquals(expected, api.listGroupContentVersions(exhibitionId, exhibitionId, deviceGroupId).size)
     }
 
     /**
