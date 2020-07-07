@@ -19,7 +19,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     private val logger = LoggerFactory.getLogger(javaClass)
 
     /**
-     * Creates new GroupContentVersion
+     * Creates new group content version
      *
      * @param exhibitionId exhibition id
      * @param payload payload
@@ -32,7 +32,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Finds GroupContentVersion
+     * Finds group content version
      *
      * @param exhibitionId exhibition id
      * @param groupContentVersionId GroupContentVersion id
@@ -43,7 +43,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Lists GroupContentVersions
+     * Lists group content versions
      *
      * @param exhibitionId exhibition id
      * @return GroupContentVersions
@@ -53,7 +53,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Updates GroupContentVersion
+     * Updates group content version
      *
      * @param exhibitionId exhibition id
      * @param body update body
@@ -64,7 +64,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Deletes a groupContentVersion from the API
+     * Deletes a group content version from the API
      *
      * @param exhibitionId exhibition id
      * @param groupContentVersion groupContentVersion to be deleted
@@ -74,7 +74,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Deletes a groupContentVersion from the API
+     * Deletes a group content version from the API
      *
      * @param exhibitionId exhibition id
      * @param groupContentVersionId groupContentVersion id to be deleted
@@ -92,7 +92,7 @@ class GroupContentVersionTestBuilderResource(testBuilder: TestBuilder, val acces
     }
 
     /**
-     * Asserts groupContentVersion count within the system
+     * Asserts group content version count within the system
      *
      * @param expected expected count
      * @param exhibitionId exhibition id
