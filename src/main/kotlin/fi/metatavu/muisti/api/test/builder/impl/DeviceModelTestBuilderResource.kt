@@ -4,10 +4,7 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.muisti.api.client.apis.DeviceModelsApi
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
-import fi.metatavu.muisti.api.client.models.DeviceModel
-import fi.metatavu.muisti.api.client.models.DeviceModelCapabilities
-import fi.metatavu.muisti.api.client.models.DeviceModelDimensions
-import fi.metatavu.muisti.api.client.models.DeviceModelDisplayMetrics
+import fi.metatavu.muisti.api.client.models.*
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import fi.metatavu.muisti.api.test.builder.impl.ApiTestBuilderResource
 import org.junit.Assert.assertEquals
@@ -30,7 +27,8 @@ class DeviceModelTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
             model = "default model",
             dimensions = DeviceModelDimensions(),
             displayMetrics = DeviceModelDisplayMetrics(),
-            capabilities = DeviceModelCapabilities( touch = true)
+            capabilities = DeviceModelCapabilities(touch = true),
+            screenOrientation = ScreenOrientation.portrait
         ))
     }
 
