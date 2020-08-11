@@ -12,6 +12,7 @@ import java.io.IOException
  * Test builder authentication
  *
  * @author Antti Leppä
+ * @author Jari Nykänen
  *
  * Constructor
  *
@@ -31,6 +32,7 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   private var exhibitionDevices: ExhibitionDeviceTestBuilderResource? = null
   private var rfidAntennas: RfidAntennaTestBuilderResource? = null
   private var pageLayouts: PageLayoutTestBuilderResource? = null
+  private var subLayouts: SubLayoutTestBuilderResource? = null
   private var exhibitionPages: ExhibitionPageTestBuilderResource? = null
   private var storedFiles: StoredFilesTestBuilderResource? = null
   private var contentVersions: ContentVersionTestBuilderResource? = null
@@ -184,6 +186,21 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
     }
 
     return pageLayouts!!
+  }
+
+  /**
+   * Returns test builder resource for sub layouts
+   *
+   * @return test builder resource for sub layouts
+   * @throws IOException thrown when authentication fails
+   */
+  @kotlin.jvm.Throws(IOException::class)
+  fun subLayouts(): SubLayoutTestBuilderResource {
+    if (subLayouts == null) {
+      subLayouts = SubLayoutTestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+    }
+
+    return subLayouts!!
   }
 
   /**
