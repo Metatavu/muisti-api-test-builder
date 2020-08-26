@@ -31,7 +31,8 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
             groupId = groupId,
             modelId = modelId,
             name = "Default",
-            screenOrientation = ScreenOrientation.portrait
+            screenOrientation = ScreenOrientation.portrait,
+            pageOrder = emptyArray()
         ))
 
         addClosable(result)
