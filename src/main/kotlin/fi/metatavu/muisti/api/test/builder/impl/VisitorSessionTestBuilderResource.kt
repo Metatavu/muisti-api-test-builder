@@ -23,7 +23,7 @@ class VisitorSessionTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @return created visitor session
      */
     fun create(exhibitionId: UUID): VisitorSession {
-        return create(exhibitionId, VisitorSession(state = VisitorSessionState.aCTIVE, visitorIds = arrayOf(), variables = arrayOf()))
+        return create(exhibitionId, VisitorSession(state = VisitorSessionState.aCTIVE, visitorIds = arrayOf(), variables = arrayOf(), language = "FI"))
     }
 
     /**
