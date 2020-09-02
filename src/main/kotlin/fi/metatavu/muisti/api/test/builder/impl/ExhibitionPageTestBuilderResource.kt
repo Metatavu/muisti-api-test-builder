@@ -8,7 +8,6 @@ import fi.metatavu.muisti.api.client.models.*
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
-import org.slf4j.LoggerFactory
 import java.util.*
 
 
@@ -16,8 +15,6 @@ import java.util.*
  * Test builder resource for handling exhibitionPages
  */
 class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<ExhibitionPage, ApiClient?>(testBuilder, apiClient) {
-
-    private val logger = LoggerFactory.getLogger(javaClass)
 
     /**
      * Creates new exhibition page with default values
@@ -32,6 +29,7 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
             layoutId = layoutId,
             deviceId = deviceId,
             contentVersionId = contentVersionId,
+            orderNumber = 0,
             name = "default page",
             enterTransitions = arrayOf(),
             exitTransitions = arrayOf(),
@@ -127,7 +125,7 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
             }
 
             val closeableExhibitionPage: ExhibitionPage = closable
-            closeableExhibitionPage.id!!.equals(exhibitionPageId)
+            closeableExhibitionPage.id!! == exhibitionPageId
         }
     }
 
