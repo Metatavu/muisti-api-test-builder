@@ -28,7 +28,15 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      * @return created exhibition DeviceGroup
      */
     fun create(exhibitionId: UUID, roomId: UUID): ExhibitionDeviceGroup {
-        return create(exhibitionId, ExhibitionDeviceGroup( name = "default deviceGroup", roomId = roomId, allowVisitorSessionCreation = false))
+        return create(
+            exhibitionId,
+            ExhibitionDeviceGroup(
+                name = "default deviceGroup",
+                roomId = roomId,
+                allowVisitorSessionCreation = false,
+                visitorSessionEndTimeout = 5000
+            )
+        )
     }
 
     /**
@@ -50,7 +58,7 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      * @return created exhibition DeviceGroup
      */
     fun create(exhibitionId: UUID, payload: ExhibitionDeviceGroup): ExhibitionDeviceGroup {
-        val result: ExhibitionDeviceGroup = this.getApi().createExhibitionDeviceGroup(exhibitionId, payload)
+        val result: ExhibitionDeviceGroup = this.api.createExhibitionDeviceGroup(exhibitionId, payload)
         addClosable(result)
         return result
     }
