@@ -29,7 +29,9 @@ class RfidAntennaTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
             roomId = roomId,
             readerId = "readerid1234",
             antennaNumber = 1,
-            location = Point(x = 1.0, y = 2.0)
+            location = Point(x = 1.0, y = 2.0),
+            visitorSessionStartThreshold = 80,
+            visitorSessionEndThreshold = 10
         ))
 
         addClosable(result)
