@@ -4,21 +4,19 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.muisti.api.client.apis.ExhibitionDeviceGroupsApi
 import fi.metatavu.muisti.api.client.infrastructure.ApiClient
 import fi.metatavu.muisti.api.client.infrastructure.ClientException
+import fi.metatavu.muisti.api.client.models.DeviceGroupVisitorSessionStartStrategy
 import fi.metatavu.muisti.api.client.models.Exhibition
 import fi.metatavu.muisti.api.client.models.ExhibitionDeviceGroup
 import fi.metatavu.muisti.api.client.models.ExhibitionRoom
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
-import org.slf4j.LoggerFactory
 import java.util.*
 
 /**
  * Test builder resource for handling exhibitionDeviceGroups
  */
 class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<ExhibitionDeviceGroup, ApiClient?>(testBuilder, apiClient) {
-
-    private val logger = LoggerFactory.getLogger(javaClass)
 
     /**
      * Creates new exhibition device group with default values
@@ -34,7 +32,8 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
                 name = "default deviceGroup",
                 roomId = roomId,
                 allowVisitorSessionCreation = false,
-                visitorSessionEndTimeout = 5000
+                visitorSessionEndTimeout = 5000,
+                visitorSessionStartStrategy = DeviceGroupVisitorSessionStartStrategy.othersblock
             )
         )
     }
@@ -120,7 +119,7 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
             }
 
             val closeableExhibitionDeviceGroup: ExhibitionDeviceGroup = closable
-            closeableExhibitionDeviceGroup.id!!.equals(exhibitionDeviceGroupId)
+            closeableExhibitionDeviceGroup.id!! == exhibitionDeviceGroupId
         }
     }
 
@@ -227,7 +226,7 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
     }
 
     override fun clean(exhibitionDeviceGroup: ExhibitionDeviceGroup) {
-        this.getApi().deleteExhibitionDeviceGroup(exhibitionDeviceGroup.exhibitionId!!, exhibitionDeviceGroup.id!!)
+        this.api.deleteExhibitionDeviceGroup(exhibitionDeviceGroup.exhibitionId!!, exhibitionDeviceGroup.id!!)
     }
 
     override fun getApi(): ExhibitionDeviceGroupsApi {
