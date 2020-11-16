@@ -23,7 +23,11 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      * @return created visitor session
      */
     fun create(exhibitionId: UUID): Visitor {
-        return create(exhibitionId, Visitor(email = "fake@exmaple.com", tagId = "faketag"))
+        return create(exhibitionId, Visitor(
+            email = "fake@exmaple.com",
+            tagId = "faketag",
+            language = "fi"
+        ))
     }
 
     /**
