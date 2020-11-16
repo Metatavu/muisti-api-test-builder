@@ -23,7 +23,11 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      * @return created visitor session
      */
     fun create(exhibitionId: UUID): Visitor {
-        return create(exhibitionId, Visitor(email = "fake@exmaple.com", tagId = "faketag"))
+        return create(exhibitionId, Visitor(
+            email = "fake@exmaple.com",
+            tagId = "faketag",
+            language = "fi"
+        ))
     }
 
     /**
@@ -65,11 +69,17 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      * Lists visitor sessions
      *
      * @param exhibitionId exhibition id
-     * @param tagId tag id
+     * @param tagId filter resulrs by tag id
+     * @param email filter results by email
+
      * @return visitor sessions
      */
-    fun listVisitors(exhibitionId: UUID, tagId: String?): Array<Visitor> {
-        return api.listVisitors(exhibitionId = exhibitionId, tagId = tagId)
+    fun listVisitors(exhibitionId: UUID, tagId: String?, email: String?): Array<Visitor> {
+        return api.listVisitors(
+            exhibitionId = exhibitionId,
+            tagId = tagId,
+            email = email
+        )
     }
 
     /**
@@ -117,9 +127,14 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      * @param expected expected count
      * @param exhibitionId exhibition id
      * @param tagId filter by tag id
+     * @param email filter by email
      */
-    fun assertCount(expected: Int, exhibitionId: UUID, tagId: String?) {
-        assertEquals(expected, api.listVisitors(exhibitionId = exhibitionId, tagId = tagId).size)
+    fun assertCount(expected: Int, exhibitionId: UUID, tagId: String?, email: String?) {
+        assertEquals(expected, api.listVisitors(
+            exhibitionId = exhibitionId,
+            tagId = tagId,
+            email = email
+        ).size)
     }
 
     /**
@@ -171,10 +186,15 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
      * @param tagId filter by tag id
+     * @param email filter by email
      */
-    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, tagId: String?) {
+    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, tagId: String?, email: String?) {
         try {
-            api.listVisitors(exhibitionId = exhibitionId, tagId = tagId)
+            api.listVisitors(
+                exhibitionId = exhibitionId,
+                tagId = tagId,
+                email = email
+            )
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
