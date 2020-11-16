@@ -71,6 +71,7 @@ class VisitorTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvid
      * @param exhibitionId exhibition id
      * @param tagId filter resulrs by tag id
      * @param email filter results by email
+
      * @return visitor sessions
      */
     fun listVisitors(exhibitionId: UUID, tagId: String?, email: String?): Array<Visitor> {
