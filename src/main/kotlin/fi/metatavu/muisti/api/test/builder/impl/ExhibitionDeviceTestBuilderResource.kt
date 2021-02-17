@@ -8,15 +8,12 @@ import fi.metatavu.muisti.api.client.models.*
 import fi.metatavu.muisti.api.test.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
-import org.slf4j.LoggerFactory
 import java.util.*
 
 /**
  * Test builder resource for handling exhibitionDevices
  */
 class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient) : ApiTestBuilderResource<ExhibitionDevice, ApiClient?>(testBuilder, apiClient) {
-
-    private val logger = LoggerFactory.getLogger(javaClass)
 
     /**
      * Creates new exhibition device using default values
@@ -74,7 +71,7 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
      * @param exhibitionDeviceId exhibition Device id
      * @return exhibition Device
      */
-    fun findExhibitionDevice(exhibitionId: UUID, exhibitionDeviceId: UUID): ExhibitionDevice? {
+    fun findExhibitionDevice(exhibitionId: UUID, exhibitionDeviceId: UUID): ExhibitionDevice {
         return api.findExhibitionDevice(exhibitionId, exhibitionDeviceId)
     }
 
@@ -96,7 +93,7 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
      * @param payload update payload
      * @return updated exhibition Device
      */
-    fun updateExhibitionDevice(exhibitionId: UUID, payload: ExhibitionDevice): ExhibitionDevice? {
+    fun updateExhibitionDevice(exhibitionId: UUID, payload: ExhibitionDevice): ExhibitionDevice {
         return api.updateExhibitionDevice(exhibitionId, payload.id!!, payload)
     }
 
@@ -231,7 +228,9 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
     }
 
     override fun clean(exhibitionDevice: ExhibitionDevice) {
-        this.getApi().deleteExhibitionDevice(exhibitionDevice.exhibitionId!!, exhibitionDevice.id!!)
+        val exhibitionId = exhibitionDevice.exhibitionId!!
+        val deviceId = exhibitionDevice.id!!
+        this.api.deleteExhibitionDevice(exhibitionId = exhibitionId, deviceId = deviceId)
     }
 
     override fun getApi(): ExhibitionDevicesApi {

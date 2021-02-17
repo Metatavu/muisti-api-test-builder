@@ -27,8 +27,9 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      */
     fun create(exhibitionId: UUID, roomId: UUID): ExhibitionDeviceGroup {
         return create(
-            exhibitionId,
-            ExhibitionDeviceGroup(
+            exhibitionId = exhibitionId,
+            sourceDeviceGroupId = null,
+            payload = ExhibitionDeviceGroup(
                 name = "default deviceGroup",
                 roomId = roomId,
                 allowVisitorSessionCreation = false,
@@ -50,14 +51,35 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
     }
 
     /**
+     * Copies device group and returns copied group as response
+     *
+     * @param exhibitionId exhibition id
+     * @param sourceDeviceGroupId source device group id
+     * @return copied group
+     */
+    fun copy(exhibitionId: UUID, sourceDeviceGroupId: UUID?): ExhibitionDeviceGroup {
+        return create(
+            exhibitionId = exhibitionId,
+            sourceDeviceGroupId = sourceDeviceGroupId,
+            payload = null
+        )
+    }
+
+    /**
      * Creates new exhibition DeviceGroup
      *
      * @param exhibitionId exhibition id
+     * @param sourceDeviceGroupId source device group
      * @param payload payload
      * @return created exhibition DeviceGroup
      */
-    fun create(exhibitionId: UUID, payload: ExhibitionDeviceGroup): ExhibitionDeviceGroup {
-        val result: ExhibitionDeviceGroup = this.api.createExhibitionDeviceGroup(exhibitionId, payload)
+    fun create(exhibitionId: UUID, sourceDeviceGroupId: UUID?, payload: ExhibitionDeviceGroup?): ExhibitionDeviceGroup {
+        val result: ExhibitionDeviceGroup = this.api.createExhibitionDeviceGroup(
+            exhibitionId = exhibitionId,
+            sourceDeviceGroupId = sourceDeviceGroupId,
+            exhibitionDeviceGroup = payload
+        )
+
         addClosable(result)
         return result
     }
@@ -69,7 +91,7 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      * @param exhibitionDeviceGroupId exhibition DeviceGroup id
      * @return exhibition DeviceGroup
      */
-    fun findExhibitionDeviceGroup(exhibitionId: UUID, exhibitionDeviceGroupId: UUID): ExhibitionDeviceGroup? {
+    fun findExhibitionDeviceGroup(exhibitionId: UUID, exhibitionDeviceGroupId: UUID): ExhibitionDeviceGroup {
         return api.findExhibitionDeviceGroup(exhibitionId, exhibitionDeviceGroupId)
     }
 
@@ -91,7 +113,7 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      * @param body update body
      * @return updated exhibition DeviceGroup
      */
-    fun updateExhibitionDeviceGroup(exhibitionId: UUID, body: ExhibitionDeviceGroup): ExhibitionDeviceGroup? {
+    fun updateExhibitionDeviceGroup(exhibitionId: UUID, body: ExhibitionDeviceGroup): ExhibitionDeviceGroup {
         return api.updateExhibitionDeviceGroup(exhibitionId, body.id!!, body)
     }
 
@@ -182,11 +204,16 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      *
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
+     * @param sourceDeviceGroupId source device group id
      * @param payload payload
      */
-    fun assertCreateFail(expectedStatus: Int, exhibitionId: UUID, payload: ExhibitionDeviceGroup) {
+    fun assertCreateFail(expectedStatus: Int, exhibitionId: UUID, sourceDeviceGroupId: UUID?, payload: ExhibitionDeviceGroup?) {
         try {
-            create(exhibitionId, payload)
+            create(
+                exhibitionId = exhibitionId,
+                sourceDeviceGroupId = sourceDeviceGroupId,
+                payload = payload
+            )
             fail(String.format("Expected create to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
