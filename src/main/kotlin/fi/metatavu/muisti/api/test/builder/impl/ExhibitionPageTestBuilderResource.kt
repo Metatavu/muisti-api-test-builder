@@ -70,7 +70,7 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionPageId exhibition Page id
      * @return exhibition Page
      */
-    fun findExhibitionPage(exhibitionId: UUID, exhibitionPageId: UUID): ExhibitionPage? {
+    fun findExhibitionPage(exhibitionId: UUID, exhibitionPageId: UUID): ExhibitionPage {
         return api.findExhibitionPage(exhibitionId, exhibitionPageId)
     }
 
@@ -97,7 +97,7 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param body update body
      * @return updated exhibition Page
      */
-    fun updateExhibitionPage(exhibitionId: UUID, body: ExhibitionPage): ExhibitionPage? {
+    fun updateExhibitionPage(exhibitionId: UUID, body: ExhibitionPage): ExhibitionPage {
         return api.updateExhibitionPage(exhibitionId, body.id!!, body)
     }
 
@@ -138,7 +138,7 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param contentVersionId exhibition content version id
      */
     fun assertCount(expected: Int, exhibitionId: UUID, exhibitionDeviceId: UUID?, contentVersionId: UUID?) {
-        assertEquals(expected, api.listExhibitionPages(exhibitionId, exhibitionDeviceId, contentVersionId).size)
+        assertEquals(expected, api.listExhibitionPages(exhibitionId = exhibitionId, exhibitionDeviceId = exhibitionDeviceId, contentVersionId = contentVersionId).size)
     }
 
     /**
