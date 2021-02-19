@@ -23,15 +23,16 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      *
      * @param exhibitionId exhibition id
      * @param roomId room id
+     * @param name name
      * @return created exhibition DeviceGroup
      */
-    fun create(exhibitionId: UUID, roomId: UUID): ExhibitionDeviceGroup {
+    fun create(exhibitionId: UUID, roomId: UUID, name: String): ExhibitionDeviceGroup {
         return create(
             exhibitionId = exhibitionId,
             sourceDeviceGroupId = null,
             payload = ExhibitionDeviceGroup(
-                name = "default deviceGroup",
                 roomId = roomId,
+                name = name,
                 allowVisitorSessionCreation = false,
                 visitorSessionEndTimeout = 5000,
                 visitorSessionStartStrategy = DeviceGroupVisitorSessionStartStrategy.othersblock
@@ -44,10 +45,11 @@ class ExhibitionDeviceGroupTestBuilderResource(testBuilder: TestBuilder, val acc
      *
      * @param exhibition exhibition id
      * @param room room
+     * @param name name
      * @return created exhibition DeviceGroup
      */
-    fun create(exhibition: Exhibition, room: ExhibitionRoom): ExhibitionDeviceGroup {
-        return create(exhibitionId = exhibition.id!!, roomId = room.id!!)
+    fun create(exhibition: Exhibition, room: ExhibitionRoom, name: String): ExhibitionDeviceGroup {
+        return create(exhibitionId = exhibition.id!!, roomId = room.id!!, name = name)
     }
 
     /**
