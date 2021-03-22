@@ -80,13 +80,20 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId exhibition id
      * @param exhibitionDeviceId exhibition device id
      * @param contentVersionId exhibition content version id
+     * @param pageLayoutId page layout id
      * @return exhibition Pages
      */
-    fun listExhibitionPages(exhibitionId: UUID, exhibitionDeviceId: UUID?, contentVersionId: UUID?): Array<ExhibitionPage> {
+    fun listExhibitionPages(
+        exhibitionId: UUID,
+        exhibitionDeviceId: UUID?,
+        contentVersionId: UUID?,
+        pageLayoutId: UUID?
+    ): Array<ExhibitionPage> {
         return api.listExhibitionPages(
             exhibitionId = exhibitionId,
             exhibitionDeviceId = exhibitionDeviceId,
-            contentVersionId = contentVersionId
+            contentVersionId = contentVersionId,
+            pageLayoutId = pageLayoutId
         )
     }
 
@@ -136,9 +143,15 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId exhibition id
      * @param exhibitionDeviceId exhibition device id
      * @param contentVersionId exhibition content version id
+     * @param pageLayoutId page layout id
      */
-    fun assertCount(expected: Int, exhibitionId: UUID, exhibitionDeviceId: UUID?, contentVersionId: UUID?) {
-        assertEquals(expected, api.listExhibitionPages(exhibitionId = exhibitionId, exhibitionDeviceId = exhibitionDeviceId, contentVersionId = contentVersionId).size)
+    fun assertCount(expected: Int, exhibitionId: UUID, exhibitionDeviceId: UUID?, contentVersionId: UUID?, pageLayoutId: UUID?) {
+        assertEquals(expected, api.listExhibitionPages(
+            exhibitionId = exhibitionId,
+            exhibitionDeviceId = exhibitionDeviceId,
+            contentVersionId = contentVersionId,
+            pageLayoutId = pageLayoutId
+        ).size)
     }
 
     /**
@@ -175,10 +188,16 @@ class ExhibitionPageTestBuilderResource(testBuilder: TestBuilder, val accessToke
      * @param exhibitionId exhibition id
      * @param exhibitionDeviceId exhibition device id
      * @param contentVersionId exhibition content version id
+     * @param pageLayoutId page layout id
      */
-    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, exhibitionDeviceId: UUID?, contentVersionId: UUID?) {
+    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, exhibitionDeviceId: UUID?, contentVersionId: UUID?, pageLayoutId: UUID?) {
         try {
-            api.listExhibitionPages(exhibitionId = exhibitionId, exhibitionDeviceId = exhibitionDeviceId, contentVersionId = contentVersionId)
+            api.listExhibitionPages(
+                exhibitionId = exhibitionId,
+                exhibitionDeviceId = exhibitionDeviceId,
+                contentVersionId = contentVersionId,
+                pageLayoutId = pageLayoutId
+            )
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)

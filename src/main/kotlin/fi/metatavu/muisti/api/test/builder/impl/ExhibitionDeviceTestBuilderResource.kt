@@ -80,10 +80,15 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
      *
      * @param exhibitionId exhibition id
      * @param exhibitionGroupId exhibition group id
+     * @param deviceModelId device model ID
      * @return exhibition Devices
      */
-    fun listExhibitionDevices(exhibitionId: UUID, exhibitionGroupId: UUID?): Array<ExhibitionDevice> {
-        return api.listExhibitionDevices(exhibitionId, exhibitionGroupId)
+    fun listExhibitionDevices(exhibitionId: UUID, exhibitionGroupId: UUID?, deviceModelId: UUID?): Array<ExhibitionDevice> {
+        return api.listExhibitionDevices(
+            exhibitionId = exhibitionId,
+            exhibitionGroupId = exhibitionGroupId,
+            deviceModelId = deviceModelId
+        )
     }
 
     /**
@@ -121,7 +126,7 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
             }
 
             val closeableExhibitionDevice: ExhibitionDevice = closable
-            closeableExhibitionDevice.id!!.equals(exhibitionDeviceId)
+            closeableExhibitionDevice.id!! == exhibitionDeviceId
         }
     }
 
@@ -131,9 +136,15 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
      * @param expected expected count
      * @param exhibitionId exhibition id
      * @param exhibitionGroupId exhibition group id
+     * @param deviceModelId device model id
      */
-    fun assertCount(expected: Int, exhibitionId: UUID, exhibitionGroupId: UUID?) {
-        assertEquals(expected, api.listExhibitionDevices(exhibitionId, exhibitionGroupId).size)
+    fun assertCount(expected: Int, exhibitionId: UUID, exhibitionGroupId: UUID?, deviceModelId: UUID?) {
+        assertEquals(expected, api.listExhibitionDevices(
+            exhibitionId = exhibitionId,
+            exhibitionGroupId = exhibitionGroupId,
+            deviceModelId = deviceModelId
+            ).size
+        )
     }
 
     /**
@@ -169,10 +180,15 @@ class ExhibitionDeviceTestBuilderResource(testBuilder: TestBuilder, val accessTo
      * @param expectedStatus expected status
      * @param exhibitionId exhibition id
      * @param exhibitionGroupId exhibition group id
+     * @param deviceModelId device model id
      */
-    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, exhibitionGroupId: UUID?) {
+    fun assertListFail(expectedStatus: Int, exhibitionId: UUID, exhibitionGroupId: UUID?, deviceModelId: UUID?) {
         try {
-            api.listExhibitionDevices(exhibitionId, exhibitionGroupId)
+            api.listExhibitionDevices(
+                exhibitionId = exhibitionId,
+                exhibitionGroupId = exhibitionGroupId,
+                deviceModelId = deviceModelId
+            )
             fail(String.format("Expected list to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
