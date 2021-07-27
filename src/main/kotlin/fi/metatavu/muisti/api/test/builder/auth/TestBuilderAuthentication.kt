@@ -24,6 +24,7 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
   private var accessTokenProvider: AccessTokenProvider? = accessTokenProvider
   private var exhibitions: ExhibitionsTestBuilderResource? = null
   private var visitorSessions: VisitorSessionTestBuilderResource? = null
+  private var visitorSessionsV2: VisitorSessionV2TestBuilderResource? = null
   private var visitors: VisitorTestBuilderResource? = null
   private var exhibitionRooms: ExhibitionRoomTestBuilderResource? = null
   private var exhibitionFloors: ExhibitionFloorTestBuilderResource? = null
@@ -67,6 +68,21 @@ class TestBuilderAuthentication(private val testBuilder: TestBuilder, accessToke
     }
 
     return visitorSessions!!
+  }
+
+  /**
+   * Returns test builder resource for visitorSessions
+   *
+   * @return test builder resource for visitorSessions
+   * @throws IOException thrown when authentication fails
+   */
+  @kotlin.jvm.Throws(IOException::class)
+  fun visitorSessionsV2(): VisitorSessionV2TestBuilderResource {
+    if (visitorSessionsV2 == null) {
+      visitorSessionsV2 = VisitorSessionV2TestBuilderResource(testBuilder, this.accessTokenProvider, createClient())
+    }
+
+    return visitorSessionsV2!!
   }
 
   /**
