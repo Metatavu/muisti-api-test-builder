@@ -24,20 +24,29 @@ class ExhibitionsTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
      * @return created exhibition
      */
     fun create(): Exhibition {
-        return create("default exhibition")
+        return create(payload= Exhibition(name="default exhibition"))
     }
 
     /**
      * Creates exhibition
      *
-     * @param name exhibition name
+     * @param payload payload
      * @return created exhibition
      */
-    fun create(name: String): Exhibition {
-        val payload = Exhibition(name)
-        val result: Exhibition = this.getApi().createExhibition(payload)
+    fun create(payload: Exhibition): Exhibition {
+        val result: Exhibition = this.getApi().createExhibition(exhibition = payload, sourceExhibitionId = null)
         addClosable(result)
         return result
+    }
+
+    /**
+     * Creates a copy of an exhibition
+     *
+     * @param sourceExhibitionId source exhibition id
+     * @return copied exhibition
+     */
+    fun copy(sourceExhibitionId: UUID): Exhibition {
+        return this.getApi().createExhibition(exhibition = null, sourceExhibitionId = sourceExhibitionId)
     }
 
     /**
@@ -130,11 +139,11 @@ class ExhibitionsTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
      * Asserts create fails with given status
      *
      * @param expectedStatus expected status
-     * @param name name
+     * @param payload payload
      */
-    fun assertCreateFail(expectedStatus: Int, name: String) {
+    fun assertCreateFail(expectedStatus: Int, payload: Exhibition) {
         try {
-            create(name)
+            create(payload = payload)
             fail(String.format("Expected create to fail with message %d", expectedStatus))
         } catch (e: ClientException) {
             assertClientExceptionStatus(expectedStatus, e)
@@ -176,11 +185,7 @@ class ExhibitionsTestBuilderResource(testBuilder: TestBuilder, val accessTokenPr
     }
 
     override fun getApi(): ExhibitionsApi {
-        System.out.println("---------------  DEBUG -------------------")
-        System.out.println("Resolving access token...")
         ApiClient.accessToken = accessTokenProvider?.accessToken
-        System.out.println("Resolving access token resolved")
-        System.out.println("---------------  DEBUG -------------------")
         return ExhibitionsApi(testBuilder.settings.apiBasePath)
     }
 
